@@ -1,4 +1,5 @@
-﻿using MovieProject.Business.Services.Abstract;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MovieProject.Business.Services.Abstract;
 using MovieProject.Entity.Context;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace MovieProject.Business.Services.Concrate
         private readonly MovieProjectContext _movieContext;
         private readonly IServiceProvider _serviceProvider;
 
-        public UnitOfWork(MovieProjectContext context, IServiceProvider serviceProvider)
+        public UnitOfWork(IServiceProvider serviceProvider, IServiceScopeFactory factory)
         {
-            _movieContext = context;
+            _movieContext = factory.CreateScope().ServiceProvider.GetRequiredService<MovieProjectContext>();
             _serviceProvider = serviceProvider;
         }
         public void Dispose()

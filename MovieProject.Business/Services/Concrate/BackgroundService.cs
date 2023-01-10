@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using MovieProject.Business.Services.Abstract;
+using MovieProject.Business.Services.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace MovieProject.Business.Services.Concrate
 {
@@ -13,9 +12,12 @@ namespace MovieProject.Business.Services.Concrate
     {
         private readonly IConfiguration _config;
         private HttpClient _httpClient;
-        public BackgroundServices(IConfiguration configuration)
+        private readonly IMovieService _movieService;
+
+        public BackgroundServices(IConfiguration configuration, IMovieService movieService)
         {
             _config = configuration;
+            _movieService = movieService;
         }
 
 
@@ -30,6 +32,7 @@ namespace MovieProject.Business.Services.Concrate
                 {
                     var data = await response.Content.ReadAsStringAsync();
 
+                    await _movieService.Post(JsonConvert.DeserializeObject<MovieModel>(data));
 
                 }
 

@@ -5,7 +5,7 @@ namespace MovieProject.Entity.Context
 {
     public class MovieProjectContext : DbContext
     {
-        public MovieProjectContext()
+        public MovieProjectContext(DbContextOptions options) : base(options)
         {
         }
 
