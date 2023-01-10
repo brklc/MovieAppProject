@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieProject", "MovieProject\MovieProject.csproj", "{C542BFC9-7B27-4CDC-A321-407FFA7A28CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieProject.Business", "MovieProject.Business\MovieProject.Business.csproj", "{5BAE215F-F337-40D3-914C-EF24AD066979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieProject.Entity", "MovieProject.Entity\MovieProject.Entity.csproj", "{D5D8ABB8-584D-46FA-B5EA-E5F619B3C4A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{C542BFC9-7B27-4CDC-A321-407FFA7A28CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C542BFC9-7B27-4CDC-A321-407FFA7A28CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C542BFC9-7B27-4CDC-A321-407FFA7A28CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BAE215F-F337-40D3-914C-EF24AD066979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BAE215F-F337-40D3-914C-EF24AD066979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BAE215F-F337-40D3-914C-EF24AD066979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BAE215F-F337-40D3-914C-EF24AD066979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D8ABB8-584D-46FA-B5EA-E5F619B3C4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D8ABB8-584D-46FA-B5EA-E5F619B3C4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D8ABB8-584D-46FA-B5EA-E5F619B3C4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D8ABB8-584D-46FA-B5EA-E5F619B3C4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
