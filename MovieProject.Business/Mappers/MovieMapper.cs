@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieProject.Business.Mappers
 {
-    internal class MovieMapper
+    public class MovieMapper
     {
     }
 }

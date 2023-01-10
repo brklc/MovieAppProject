@@ -1,12 +1,47 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieProject.Business.Services.Concrate
 {
-    internal class BackgroundService
+    public class BackgroundServices : BackgroundService
     {
+        private readonly IConfiguration _config;
+        private HttpClient _httpClient;
+        public BackgroundServices(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
+
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _httpClient = new HttpClient();
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["MovieApi:AccessTokenForMovieApi"]);
+                var response = await _httpClient.GetAsync(_config["MovieApi:ApiUrl"]);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+
+
+                }
+
+
+                await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
+            }
+        }
+
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
