@@ -1,23 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieProject.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieProject.Entity.Context
 {
-    public class MovieContext : DbContext
+    public class MovieProjectContext : DbContext
     {
-        public MovieContext(DbContextOptions options) : base(options)
+        public MovieProjectContext()
         {
         }
 
-        public MovieContext(DbContextOptions<MovieContext> options) : base(options)
-        {
-        }
 
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
@@ -30,7 +21,7 @@ namespace MovieProject.Entity.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\\MSSQLLocalDB;Database=MovieApp;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MovieProject;Trusted_Connection=True;");
             }
         }
 
@@ -44,7 +35,6 @@ namespace MovieProject.Entity.Context
                 entity.Property(e => e.Popularity);
                 entity.Property(e => e.Adult);
                 entity.Property(e => e.Backdrop_path);
-                entity.Property(e => e.Belongs_to_collection);
                 entity.Property(e => e.Budget);
                 entity.Property(e => e.Homepage);
                 entity.Property(e => e.Imdb_id);
@@ -62,7 +52,7 @@ namespace MovieProject.Entity.Context
                 entity.Property(e => e.Vote_average);
                 entity.Property(e => e.Video);
 
-                entity.HasOne(s => s.Belongs_to_collection)
+                entity.HasOne<BelongsToCollection>(s => s.Belongs_to_collection)
                 .WithOne(s => s.Movie)
                 .HasForeignKey<BelongsToCollection>(s => s.MovieId);
             });
@@ -72,12 +62,12 @@ namespace MovieProject.Entity.Context
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Iso_639_1);
-                entity.Property(e => e.Movie);
                 entity.Property(e => e.English_name);
 
                 entity.HasOne(m => m.Movie)
                 .WithMany(s => s.Spoken_languages)
-                .HasForeignKey(s => s.MovieId);
+                .HasForeignKey(s => s.MovieId)
+                .HasConstraintName("FK_Spoken_languages_Movie");
             });
 
             modelBuilder.Entity<ProductionCompany>(entity =>
@@ -117,6 +107,7 @@ namespace MovieProject.Entity.Context
                 .WithMany(s => s.Genres)
                 .HasForeignKey(s => s.MovieId);
             });
+
 
             modelBuilder.Entity<BelongsToCollection>(entity =>
             {

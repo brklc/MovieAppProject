@@ -10,10 +10,10 @@ namespace MovieProject.Business.Services.Concrate
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MovieContext _movieContext;
+        private readonly MovieProjectContext _movieContext;
         private readonly IServiceProvider _serviceProvider;
 
-        public UnitOfWork(MovieContext context, IServiceProvider serviceProvider)
+        public UnitOfWork(MovieProjectContext context, IServiceProvider serviceProvider)
         {
             _movieContext = context;
             _serviceProvider = serviceProvider;

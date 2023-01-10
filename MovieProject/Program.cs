@@ -9,10 +9,10 @@ using MovieProject.Entity.Context;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<MovieContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<MovieProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddAutoMapper(typeof(MovieMapper));
 
 builder.Services.AddControllers();
@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "V1",
         Title = "WebAPI",
-        Description = "MovieProject WebAPI"
+        Description = "Product WebAPI"
     });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -78,10 +78,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options => {
-        options.SwaggerEndpoint("/swagger/V1/swagger.json", "MovieProject WebAPI");
+        options.SwaggerEndpoint("/swagger/V1/swagger.json", "Product WebAPI");
     });
 }
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -90,5 +89,4 @@ app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
-
 app.Run();
