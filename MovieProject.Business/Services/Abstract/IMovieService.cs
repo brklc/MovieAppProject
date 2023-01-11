@@ -9,6 +9,6 @@ namespace MovieProject.Business.Services.Abstract
 {
     public interface IMovieService
     {
-        public Task Post(MovieModel model);
+        public Task<bool> Post(MovieModel model);
     }
 }

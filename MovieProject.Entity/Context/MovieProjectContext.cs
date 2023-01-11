@@ -20,7 +20,7 @@ namespace MovieProject.Entity.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieProject;Trusted_Connection=True|");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieProject;");
             }
         }
 

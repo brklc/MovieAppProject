@@ -20,15 +20,25 @@ namespace MovieProject.Business.Services.Concrate
             _mapper = mapper;
         }
 
-        public Task Post(MovieModel model)
+        public Task<bool> Post(MovieModel model)
         {
-            var movieMap = _mapper.Map<MovieModel, Movie>(model);
+            try
+            {
+                var movieMap = _mapper.Map<MovieModel, Movie>(model);
 
-             _unitOfWork.Movies.Add(movieMap);
+                _unitOfWork.Movies.Add(movieMap);
 
-            _unitOfWork.CompleteAsync();
+                _unitOfWork.CompleteAsync();
 
-            return Task.CompletedTask;
+                return Task.FromResult(true);
+
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(false);
+            }
+
+
         }
     }
 }

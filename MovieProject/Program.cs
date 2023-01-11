@@ -9,14 +9,15 @@ using MovieProject.Entity.Context;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MovieProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add services to the container.
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IMovieService, MovieService>();
 builder.Services.AddAutoMapper(typeof(MovieMapper));
 builder.Services.AddHostedService<BackgroundServices>();
 //builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-builder.Services.AddDbContext<MovieProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
