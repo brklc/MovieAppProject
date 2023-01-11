@@ -1,4 +1,5 @@
-﻿using MovieProject.Business.Services.Abstract;
+﻿using AutoMapper;
+using MovieProject.Business.Services.Abstract;
 using MovieProject.Business.Services.Models;
 using MovieProject.Entity.Models;
 using System;
@@ -9,19 +10,23 @@ using System.Threading.Tasks;
 
 namespace MovieProject.Business.Services.Concrate
 {
-    public class MovieService : BaseService, IMovieService
+    public class MovieService : IMovieService
     {
-        public MovieService(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public MovieService(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Task Post(MovieModel model)
         {
             var movieMap = _mapper.Map<MovieModel, Movie>(model);
 
-            _unitOfWork.GetRepository<Movie>().Add(movieMap);
+             _unitOfWork.Movies.Add(movieMap);
 
-            _unitOfWork.SaveChanged();
+            _unitOfWork.CompleteAsync();
 
             return Task.CompletedTask;
         }

@@ -9,7 +9,6 @@ namespace MovieProject.Entity.Context
         {
         }
 
-
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<ProductionCompany> ProductionCompanies { get; set; }
@@ -21,7 +20,7 @@ namespace MovieProject.Entity.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MovieProject;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieProject;Trusted_Connection=True|");
             }
         }
 

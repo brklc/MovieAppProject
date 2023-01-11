@@ -1,37 +1,32 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Logging;
 using MovieProject.Business.Services.Abstract;
 using MovieProject.Entity.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieProject.Business.Services.Concrate
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly MovieProjectContext _movieContext;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly MovieProjectContext _context;
+        private readonly ILogger _logger;
 
-        public UnitOfWork(IServiceProvider serviceProvider, IServiceScopeFactory factory)
+        public IMovieRepository Movies { get; private set; }
+
+        public UnitOfWork(MovieProjectContext context, ILoggerFactory loggerFactory)
         {
-            _movieContext = factory.CreateScope().ServiceProvider.GetRequiredService<MovieProjectContext>();
-            _serviceProvider = serviceProvider;
+            _context = context;
+            _logger = loggerFactory.CreateLogger("logs");
+
+            Movies = new MovieRepository(context, _logger);
         }
+
+        public async Task CompleteAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
-            _movieContext.Dispose();
-        }
-
-        public IRepository<T> GetRepository<T>() where T : class
-        {
-            return (IRepository<T>)_serviceProvider.GetService(typeof(IRepository<T>));
-        }
-
-        public int SaveChanged()
-        {
-            return _movieContext.SaveChanges();
+            _context.Dispose();
         }
     }
 }

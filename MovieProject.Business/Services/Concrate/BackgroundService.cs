@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieProject.Business.Services.Abstract;
 using MovieProject.Business.Services.Models;
@@ -12,17 +13,18 @@ namespace MovieProject.Business.Services.Concrate
     {
         private readonly IConfiguration _config;
         private HttpClient _httpClient;
-        private readonly IMovieService _movieService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public BackgroundServices(IConfiguration configuration, IMovieService movieService)
+        public BackgroundServices(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             _config = configuration;
-            _movieService = movieService;
+            _serviceProvider = serviceProvider;
         }
 
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+           
             while (!stoppingToken.IsCancellationRequested)
             {
                 _httpClient = new HttpClient();
@@ -32,7 +34,15 @@ namespace MovieProject.Business.Services.Concrate
                 {
                     var data = await response.Content.ReadAsStringAsync();
 
-                    await _movieService.Post(JsonConvert.DeserializeObject<MovieModel>(data));
+                    using (IServiceScope scope = _serviceProvider.CreateScope())
+                    {
+                        IMovieService mov =
+                            scope.ServiceProvider.GetRequiredService<IMovieService>();
+
+                        await mov.Post(JsonConvert.DeserializeObject<MovieModel>(data));
+                    }
+
+                   // await _movieService.Post(JsonConvert.DeserializeObject<MovieModel>(data));
 
                 }
 
