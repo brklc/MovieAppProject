@@ -9,8 +9,7 @@ namespace MovieProject.Business.Services.Models
 {
     public class BelongsToCollectionModel
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+     
         [JsonProperty("name")]
         public string Name { get; set; }
 

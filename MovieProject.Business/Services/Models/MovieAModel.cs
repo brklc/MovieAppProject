@@ -1,39 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
-namespace MovieProject.Entity.Models
+namespace MovieProject.Business.Models
 {
-    public class Movie : BaseClass
+    public class MovieAModel
     {
-        public bool Adult { get; set; }
-        public string Backdrop_path { get; set; }
-        public int Budget { get; set; }
-        public string Homepage { get; set; }
-        public string Imdb_id { get; set; }
-        public string Original_language { get; set; }
-        public string Original_title { get; set; }
-        public string Overview { get; set; }
-        public double Popularity { get; set; }
-        public string Poster_path { get; set; }
-        public string Release_date { get; set; }
-        public int Revenue { get; set; }
-        public int Runtime { get; set; }
-        public string Status { get; set; }
-        public string Tagline { get; set; }
-        public string Title { get; set; }
-        public bool Video { get; set; }
-        public double Vote_average { get; set; }
-        public int Vote_count { get; set; }
-        public virtual BelongsToCollection? Belongs_to_collection { get; set; }
-        public virtual MovieScore? MovieScore { get; set; }
-        public virtual ICollection<SpokenLanguage> Spoken_languages { get; set; }
-        public virtual ICollection<ProductionCompany> Production_companies { get; set; }
-        public virtual ICollection<ProductionCountry> Production_countries { get; set; }
-        public virtual ICollection<MovieComment> MovieComments { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
 
-        public ICollection<Genre> Genres { get; set; }
+        [JsonProperty("adult")]
+        public bool Adult { get; set; }
+        [JsonProperty("backdrop_path")]
+        public string Backdrop_path { get; set; }
+
+        [JsonProperty("budget")]
+        public int Budget { get; set; }
+
+        [JsonProperty("homepage")]
+        public string Homepage { get; set; }
+
+        [JsonProperty("imdb_id")]
+        public string Imdb_id { get; set; }
+
+        [JsonProperty("original_language")]
+        public string Original_language { get; set; }
+
+        [JsonProperty("original_title")]
+        public string Original_title { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
+
+        [JsonProperty("popularity")]
+        public double Popularity { get; set; }
+
+        [JsonProperty("poster_path")]
+        public string Poster_path { get; set; }
+
+        [JsonProperty("release_date")]
+        public string Release_date { get; set; }
+
+        [JsonProperty("revenue")]
+        public int Revenue { get; set; }
+
+        [JsonProperty("runtime")]
+        public int Runtime { get; set; }
+
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("tagline")]
+        public string Tagline { get; set; }
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("video")]
+        public bool Video { get; set; }
+
+        [JsonProperty("vote_average")]
+        public double Vote_average { get; set; }
+
+        [JsonProperty("vote_count")]
+        public int Vote_count { get; set; }
+
+   
     }
 }

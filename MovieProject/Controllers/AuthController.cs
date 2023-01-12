@@ -26,17 +26,32 @@ namespace MovieProject.Controllers
             }
             if (user.Username == "burak.kilic" && user.Password == "mlt44")
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: _config["JWT:ValidIssuer"],
-                    audience: _config["JWT:ValidAudience"],
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(6),
-                    signingCredentials: signinCredentials
-                );
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new JWTResponse { Token = tokenString });
+                var issuer = _config["JWT:ValidIssuer"];
+                var audience = _config["JWT:ValidAudience"];
+                var key = Encoding.ASCII.GetBytes
+                (_config["JWT:Secret"]);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new[]
+                    {
+                new Claim("Id", Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Email, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                Guid.NewGuid().ToString())
+             }),
+                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    Issuer = issuer,
+                    Audience = audience,
+                    SigningCredentials = new SigningCredentials
+                    (new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha512Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var jwtToken = tokenHandler.WriteToken(token);
+                var stringToken = tokenHandler.WriteToken(token);
+                return Ok(stringToken);
             }
             return Unauthorized();
         }

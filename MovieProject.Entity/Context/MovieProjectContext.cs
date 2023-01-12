@@ -1,13 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MovieProject.Entity.Models;
 
 namespace MovieProject.Entity.Context
 {
     public class MovieProjectContext : DbContext
     {
+        public MovieProjectContext()
+        {
+
+        }
         public MovieProjectContext(DbContextOptions options) : base(options)
         {
         }
+       
 
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
@@ -15,13 +21,13 @@ namespace MovieProject.Entity.Context
         public virtual DbSet<BelongsToCollection> BelongsToCollections { get; set; }
         public virtual DbSet<ProductionCountry> ProductionCountries { get; set; }
         public virtual DbSet<SpokenLanguage> SpokenLanguages { get; set; }
+        public virtual DbSet<MovieScore> MovieScores { get; set; }
+        public virtual DbSet<MovieComment> MovieComments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieProject;");
-            }
+           
+            optionsBuilder.UseSqlServer(@"Data Source=172.42.6.13;Initial Catalog=Temp3;User ID=sa;Password=Ticket1234;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +57,10 @@ namespace MovieProject.Entity.Context
                 entity.Property(e => e.Vote_average);
                 entity.Property(e => e.Video);
 
+                entity.HasOne<MovieScore>(s => s.MovieScore)
+              .WithOne(s => s.Movie)
+              .HasForeignKey<MovieScore>(s => s.MovieId);
+
                 entity.HasOne<BelongsToCollection>(s => s.Belongs_to_collection)
                 .WithOne(s => s.Movie)
                 .HasForeignKey<BelongsToCollection>(s => s.MovieId);
@@ -67,6 +77,28 @@ namespace MovieProject.Entity.Context
                 .WithMany(s => s.Spoken_languages)
                 .HasForeignKey(s => s.MovieId)
                 .HasConstraintName("FK_Spoken_languages_Movie");
+            });
+
+            modelBuilder.Entity<MovieComment>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Note);
+
+                entity.Property(e => e.UserName);
+
+                entity.HasOne(m => m.Movie)
+                .WithMany(s => s.MovieComments)
+                .HasForeignKey(s => s.MovieId)
+                .HasConstraintName("FK_MovieComments_Movie");
+            });
+
+            modelBuilder.Entity<MovieScore>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.UserName);
+             
             });
 
             modelBuilder.Entity<ProductionCompany>(entity =>

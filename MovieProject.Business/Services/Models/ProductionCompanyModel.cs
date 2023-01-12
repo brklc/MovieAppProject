@@ -9,8 +9,7 @@ namespace MovieProject.Business.Services.Models
 {
     public class ProductionCompanyModel
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+    
         [JsonProperty("logo_path")]
         public string Logo_path { get; set; }
 

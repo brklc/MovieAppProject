@@ -9,8 +9,7 @@ namespace MovieProject.Business.Services.Models
 {
     public class SpokenLanguageModel
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+      
         [JsonProperty("english_name")]
         public string English_name { get; set; }
 
