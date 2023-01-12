@@ -27,7 +27,7 @@ namespace MovieProject.Entity.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
-            optionsBuilder.UseSqlServer(@"Data Source=172.42.6.13;Initial Catalog=Temp3;User ID=sa;Password=Ticket1234;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MovieProject;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
