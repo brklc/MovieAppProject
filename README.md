@@ -1,5 +1,5 @@
 # MovieAppProject
-Movie App Projext
+Movie App Project
 
 Kurulum için;
 Başlangıç projesi olarak MovieProject.Entity seçilip update-database komutu çalıştırılmalıdır.
